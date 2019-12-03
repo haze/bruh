@@ -6,7 +6,7 @@
 
 ## Install
 
-If you have `zig 5.0+b7be57766` and some recent version of `go`, you should be able to just run `./install`.
+If you have `zig version >= 5.0+b7be57766` and some recent version of `go (1.10 >=)`, you should be able to just run `./install`.
 
 If yoo do not have either, you can choose to use the prebuilt binaries in [dist](https://github.com/haze/bruh/blob/master/dist).
 
