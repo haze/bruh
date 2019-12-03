@@ -1,20 +1,27 @@
-# nox theme
+# bruh theme
 
-_collapsed_pwd() {
-  echo $(pwd | perl -pe '
-   BEGIN {
-      binmode STDIN,  ":encoding(UTF-8)";
-      binmode STDOUT, ":encoding(UTF-8)";
-   }; s|^$ENV{HOME}|~|g; s|/([^/.])[^/]*(?=/)|/$1|g; s|/\.([^/])[^/]*(?=/)|/.$1|g
-')
+# setup
+setopt prompt_subst
+hl='%F{green}'
+reset='%F{fb_default_code}'
+
+function precmd() {
+  if [ -d "$PWD/.git" ]
+  then
+    git_branch="$(git rev-parse --abbrev-ref HEAD) "
+    git_shorthash="$hl$(git rev-parse --short HEAD)$reset "
+    git_commit_age="$(bruh_lca $(date +%s) $(git show -s --format=%ct))"
+    if [[ $(git diff --stat) != '' ]]; then
+      git_dirty="$hl+$reset "
+    else
+      git_dirty=''
+    fi
+  else
+    git_branch=''
+    git_shorthash=''
+    git_commit_age=''
+  fi
 }
 
-PROMPT='%{$fg[green]%}%n%{$reset_color%}@%m\
- %{$fg[green]%}$(_collapsed_pwd)%{$reset_color%} '
-
-RPROMPT='$(git_prompt_info)%{$reset_color%}'
-
-ZSH_THEME_GIT_PROMPT_PREFIX=""
-ZSH_THEME_GIT_PROMPT_SUFFIX=""
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_bold[green]%} +"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$reset_color%}"
+PROMPT=' $(cpwd) '
+RPROMPT='$git_dirty$git_branch$git_shorthash$git_commit_age'

@@ -1,0 +1,2 @@
+#!/bin/sh
+zig build-exe collapsed_pwd.zig --single-threaded --release-fast --strip --name bruh_cpwd
