@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# compile linux
+zig build-exe ../collapsed_pwd.zig -target x86_64-linux-gnu --output-dir linux --single-threaded --release-fast --strip --name bruh_cpwd
+GOOS=linux GOARCH=amd64 go build -o linux/bruh_lca ../last_commit_age.go
+
+# compile windows
+zig build-exe ../collapsed_pwd.zig -target x86_64-windows-gnu --output-dir windows --single-threaded --release-fast --strip --name bruh_cpwd
+GOOS=windows GOARCH=amd64 go build -o windows/bruh_lca.exe ../last_commit_age.go
+
+# compile macos
+# TODO cross compile macOS binary 
+zig build-exe ../collapsed_pwd.zig --output-dir mac --single-threaded --release-fast --strip --name bruh_cpwd
+GOOS=darwin GOARCH=amd64 go build -o mac/bruh_lca ../last_commit_age.go
