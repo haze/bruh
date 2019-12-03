@@ -23,5 +23,5 @@ function precmd() {
   fi
 }
 
-PROMPT=' $(cpwd) '
+PROMPT=' $(bruh_cpwd) '
 RPROMPT='$git_dirty$git_branch$git_shorthash$git_commit_age'

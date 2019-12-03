@@ -1,2 +1,3 @@
 #!/bin/sh
-go build -o bruh_lca last_commit_age.go
+mkdir -p bin
+go build -o bin/bruh_lca last_commit_age.go

@@ -1,2 +1,3 @@
 #!/bin/sh
-zig build-exe collapsed_pwd.zig --single-threaded --release-fast --strip --name bruh_cpwd
+mkdir -p bin
+zig build-exe collapsed_pwd.zig --output-dir bin --single-threaded --release-fast --strip --name bruh_cpwd
