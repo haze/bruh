@@ -1,4 +1,0 @@
-#!/bin/sh
-./compile_zig
-./compile_go
-mv bin/* /usr/local/bin

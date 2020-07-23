@@ -1,3 +1,4 @@
 #!/bin/sh
 mkdir -p bin
 go build -o bin/bruh_lca last_commit_age.go
+go build -o bin/bruh_tf time_format.go
