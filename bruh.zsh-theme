@@ -33,7 +33,7 @@ function precmd() {
     if [ -d "$PWD/.git" ]; then
       git_raw_last_commit_age="$(git show -s --format=%ct 2>/dev/null)"
       if [ $? -eq 0 ]; then
-        git_commit_age="$(bruh_lca $(date +%s) $(git_raw_last_commit_age))"
+        git_commit_age="$(bruh_lca $(date +%s) $git_raw_last_commit_age)"
       fi
     else
     fi
