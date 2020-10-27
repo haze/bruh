@@ -32,6 +32,7 @@ fn shorten(allocator: *mem.Allocator, input: []const u8) ![]const u8 {
     var buf = try std.ArrayList(u8).initCapacity(allocator, input.len);
     var home: ?[]const u8 = null;
     var start: usize = 0;
+    var should_append_root: bool = false;
 
     if (envMap.get("HOME")) |captured_home| { // posix only
         home = captured_home;
@@ -39,7 +40,7 @@ fn shorten(allocator: *mem.Allocator, input: []const u8) ![]const u8 {
             try buf.appendSlice("~/");
             start += captured_home.len;
         } else {
-            try buf.append('/');
+            should_append_root = true;
         }
     }
 
@@ -48,6 +49,7 @@ fn shorten(allocator: *mem.Allocator, input: []const u8) ![]const u8 {
         var iter = map.iterator();
         while (iter.next()) |entry| {
             if (mem.startsWith(u8, input, entry.key)) {
+                should_append_root = false;
                 start += entry.key.len;
                 try buf.appendSlice(alias_highlight);
                 try buf.appendSlice(entry.value);
@@ -56,6 +58,10 @@ fn shorten(allocator: *mem.Allocator, input: []const u8) ![]const u8 {
                 break;
             }
         }
+    }
+
+    if (should_append_root) {
+        try buf.append('/');
     }
 
     var it = mem.tokenize(input[start..], &[_]u8{std.fs.path.sep});
