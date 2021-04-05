@@ -16,7 +16,7 @@ function precmd() {
   else
     after=$EPOCHREALTIME
     raw_elapsed=$(echo "$after-$before" | bc)
-    elapsed="$hl$(bruh_tf $raw_elapsed)$reset "
+    elapsed="$hl$(bruh tf $raw_elapsed)$reset "
     before=''
   fi
   git_dirty=''
@@ -28,7 +28,7 @@ function precmd() {
     if [ -d "$PWD/.git" ]; then
       git_raw_last_commit_age="$(git show -s --format=%ct 2>/dev/null)"
       if [ $? -eq 0 ]; then
-        git_commit_age="$(bruh_lca $(date +%s) $git_raw_last_commit_age)"
+        git_commit_age="$(bruh lca $(date +%s) $git_raw_last_commit_age)"
       fi
     else
     fi
@@ -45,5 +45,5 @@ function precmd() {
   fi
 }
 
-PROMPT=' $elapsed$(bruh_cpwd) '
+PROMPT=' $elapsed$(bruh cwd) '
 RPROMPT='$git_dirty$git_branch$git_shorthash$git_commit_age'
