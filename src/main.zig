@@ -39,6 +39,19 @@ pub fn main() !void {
         const arg = try maybe_arg;
         if (std.mem.eql(u8, arg, "cwd")) {
             cwd.printCollapsedWorkingDir(allocator, config);
+        } else if (std.mem.eql(u8, arg, "lca")) {
+            const time_a_raw = try arg_iter.next(allocator) orelse {
+                lib_log.err("No source seconds given to lca", .{});
+                return;
+            };
+            const time_b_raw = try arg_iter.next(allocator) orelse {
+                lib_log.err("No dest seconds given to lca", .{});
+                return;
+            };
+            const time_a = try std.fmt.parseFloat(f64, time_a_raw);
+            const time_b = try std.fmt.parseFloat(f64, time_b_raw);
+            const diff = std.math.absFloat(time_a - time_b);
+            tf.printFormattedTime(diff);
         } else if (std.mem.eql(u8, arg, "tf")) {
             if (arg_iter.next(allocator)) |maybe_seconds| {
                 const seconds_arg = try maybe_seconds;
