@@ -33,7 +33,7 @@ function precmd() {
     else
     fi
 
-    $(git diff-index --quiet HEAD --)
+    $(git diff-index --quiet HEAD -- 2>/dev/null)
     do_we_have_changes=$?
     if [ $do_we_have_changes -ne 0 ]; then
       git_dirty="$hl+$reset "
