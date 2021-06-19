@@ -21,7 +21,7 @@ fn createCollapsedWorkingDir(allocator: *std.mem.Allocator, config: bruh.Config)
     if (in_home_dir) {
         try new_working_dir.append('~');
         try new_working_dir.append(std.fs.path.sep);
-    }
+    } else try new_working_dir.append('/');
     // TODO(haze): this is kinda naive
     const num_paths: usize = std.mem.count(u8, current_working_dir, std.fs.path.sep_str);
     var path_iterator = std.mem.tokenize(current_working_dir, std.fs.path.sep_str);
@@ -49,22 +49,14 @@ fn appendPathHelper(buf: *std.ArrayList(u8), path_idx: usize, total_num_paths: u
         // how many chars can we add before we need to shorten?
         var count: usize = 0;
         while (segment_head < path_segment.len) : (segment_head += 1) {
-            if (is_early_cutoff) {
-                if (config.early_dir_cutoff_len) |cutoff_len| {
-                    if (count > cutoff_len) {
+            if (config.early_dir_cutoff_len) |cutoff_len| {
+                if (count > cutoff_len) {
+                    if (is_early_cutoff) {
                         try buf.appendSlice(path_segment[0..count]);
                         try appendElipses(buf);
-                        print_without_truncating = false;
-                        break;
-                    }
-                }
-            } else {
-                if (config.dir_cutoff_len) |cutoff_len| {
-                    if (count > cutoff_len) {
-                        try buf.append(path_segment[0]);
-                        print_without_truncating = false;
-                        break;
-                    }
+                    } else try buf.append(path_segment[0]);
+                    print_without_truncating = false;
+                    break;
                 }
             }
             // if we find a separating char at our head, reset the count
