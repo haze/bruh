@@ -109,9 +109,10 @@ const Duration = struct {
     pub fn format(
         self: Duration,
         comptime fmt: []const u8,
-        options: std.fmt.FormatOptions,
+        _: std.fmt.FormatOptions,
         out_stream: anytype,
     ) !void {
+        _ = fmt;
         // if it has a fractional part, print with up to 2 places of precision
         if (std.math.modf(self.as(self.largest_unit)).fpart > 0) {
             // if we are seconds and above, print with more precision (we only want 2 for millis and below)
