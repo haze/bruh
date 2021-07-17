@@ -29,7 +29,9 @@ end
 
 function show_last_commit_age
   set -l last_commit_age (git show -s --format=%ct 2>/dev/null)
+  set -l git_show_status $status
   if test -n $last_commit_age
+    and [ $git_show_status -ne 128 ]
     echo -ne (bruh lca (date +%s) $last_commit_age)" "
   end
 end
