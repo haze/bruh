@@ -3,6 +3,10 @@ function fish_prompt
 
   echo -en " "
 
+  if test -n "$SSH_CONNECTION"
+    ecno -en (whoami)"@"(hostname)" "
+  end
+
   if [ $last_status != 0 ]
       set_color red
       echo -en "$last_status "
