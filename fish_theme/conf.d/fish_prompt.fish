@@ -4,7 +4,7 @@ function fish_prompt
   echo -en " "
 
   if test -n "$SSH_CONNECTION"
-    ecno -en (whoami)"@"(hostname)" "
+    echo -en (whoami)"@"(hostname)" "
   end
 
   if [ $last_status != 0 ]
