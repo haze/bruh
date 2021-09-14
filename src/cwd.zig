@@ -24,7 +24,7 @@ fn createCollapsedWorkingDir(allocator: *std.mem.Allocator, config: bruh.Config)
     } else try new_working_dir.append('/');
     // TODO(haze): this is kinda naive
     const num_paths: usize = std.mem.count(u8, current_working_dir, std.fs.path.sep_str);
-    var path_iterator = std.mem.tokenize(current_working_dir, std.fs.path.sep_str);
+    var path_iterator = std.mem.tokenize(u8, current_working_dir, std.fs.path.sep_str);
     var path_idx: usize = 0;
     while (path_iterator.next()) |path_segment| {
         try appendPathHelper(&new_working_dir, path_idx, num_paths, path_iterator, config, path_segment);
@@ -40,7 +40,7 @@ fn appendElipses(buf: *std.ArrayList(u8)) !void {
         try buf.appendSlice("…");
 }
 
-fn appendPathHelper(buf: *std.ArrayList(u8), path_idx: usize, total_num_paths: usize, path_iterator: std.mem.TokenIterator, config: bruh.Config, path_segment: []const u8) !void {
+fn appendPathHelper(buf: *std.ArrayList(u8), path_idx: usize, total_num_paths: usize, path_iterator: std.mem.TokenIterator(u8), config: bruh.Config, path_segment: []const u8) !void {
     const is_last_path = path_iterator.rest().len == 0;
     var print_without_truncating = true;
     if (!is_last_path) {
